@@ -1,0 +1,59 @@
+nav {
+  padding: 0px 16px;
+}
+.row::after {
+  display: none;
+}
+.search-pannel {
+  margin-bottom: 20px;
+}
+.search-wrapper {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+}
+.input-field{
+  width: 100%;
+}
+.radio-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.container {
+  margin-bottom: 50px;
+}
+
+.content {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(4, auto);
+}
+
+.card {
+  margin: 0;
+}
+
+.card-image-wrapper {
+  height: 450px;
+}
+.card-image {
+  width: 100%;
+  object-fit: cover;
+  
+}
+.card-content {
+  display: grid;
+  grid-template-rows: 70%;
+}
+.card-title {
+  font-size: 10Px;
+}
+.card-description {
+  display: flex;
+  justify-content:space-between;
+}
