@@ -1,60 +1,76 @@
 import { Cards } from '../components/Cards'
 import { Preloader } from '../components/Preloader'
 import { Search } from '../components/Search'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const API_KEY = process.env.REACT_APP_API_KEY
 
-export class Main extends React.Component {
-    state = {
-        cards: [],
-        loading: true
-    }
+export function Main () {
+    const [cards, setCards] = useState([])
+    const [loading, setLoading] = useState(true)
     
-    componentDidMount = () => {
-        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=Matrix&type=`)
-        .then((response) => response.json())
-        .then(data => 
-            this.setState((state) => {
-            return {
-                ...state,
-                cards: data.Search ?? [],
-                loading: false   
-            }
-        }))
-        .catch((err) => {
-            console.log(err)
-            this.setState({loading: false})
-        })
-    }
+    // componentDidMount = () => {
+    //     fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=Matrix&type=`)
+    //     .then((response) => response.json())
+    //     .then(data => 
+    //         this.setState((state) => {
+    //         return {
+    //             ...state,
+    //             cards: data.Search ?? [],
+    //             loading: false   
+    //         }
+    //     }))
+    //     .catch((err) => {
+    //         console.log(err)
+    //         this.setState({loading: false})
+    //     })
+    // }
 
-    handleSearch = (searchValue, type) => {
-        this.setState({loading: true})
+    const handleSearch = (searchValue, type) => {
+        setLoading(true)
+        // this.setState({loading: true})
         fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${searchValue}&type=${type === 'All' ? '' : type}`)
         .then((response) => response.json())
-        .then(data => 
-            this.setState((state) => {
-            return {
-                ...state,
-                cards: data.Search ?? [],
-                loading: false   
-            }
-        }))
+        .then((data) => {
+            setCards(data.Search ?? [])
+            setLoading(false)
+        }
+        //     this.setState((state) => {
+        //     return {
+        //         ...state,
+        //         cards: data.Search ?? [],
+        //         loading: false   
+        //     }
+        // }
+        )
         .catch((err) => {
             console.log(err)
-            this.setState({loading: false})
+            // this.setState({loading: false})
+            setLoading(false)
         })
     }
 
+    useEffect(()=> {
+        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=Matrix&type=`)
+        .then((response) => response.json())
+        .then((data) => {
+            setCards(data.Search ?? [])
+            setLoading(false)
+        })
+        .catch((err) => {
+            console.log(err)
+            // this.setState({loading: false})
+            setLoading((loading) => loading = false)
+        })
+    }, [])
     
-    render() {
-        return <main className="container">
-        <Search handleSearch={this.handleSearch}/>
+        return (
+        <main className="container">
+        <Search handleSearch={handleSearch}/>
         <div className="content">
-            {this.state.loading ? <Preloader/> : <Cards cards={this.state.cards}/> }
+            {loading ? <Preloader/> : <Cards cards={cards}/> }
         </div>
     </main>
-    }
-    
+    )    
 }
 
