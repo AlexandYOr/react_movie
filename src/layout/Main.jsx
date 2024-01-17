@@ -12,7 +12,7 @@ export class Main extends React.Component {
     }
     
     componentDidMount = () => {
-        fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=Matrix&type=`)
+        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=Matrix&type=`)
         .then((response) => response.json())
         .then(data => 
             this.setState((state) => {
@@ -22,11 +22,15 @@ export class Main extends React.Component {
                 loading: false   
             }
         }))
+        .catch((err) => {
+            console.log(err)
+            this.setState({loading: false})
+        })
     }
 
     handleSearch = (searchValue, type) => {
         this.setState({loading: true})
-        fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=${searchValue}&type=${type === 'All' ? '' : type}`)
+        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${searchValue}&type=${type === 'All' ? '' : type}`)
         .then((response) => response.json())
         .then(data => 
             this.setState((state) => {
@@ -36,6 +40,10 @@ export class Main extends React.Component {
                 loading: false   
             }
         }))
+        .catch((err) => {
+            console.log(err)
+            this.setState({loading: false})
+        })
     }
 
     
